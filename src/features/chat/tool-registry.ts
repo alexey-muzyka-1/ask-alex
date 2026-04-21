@@ -5,7 +5,7 @@ import { getEnv } from "@/src/shared/env";
 import { measureAsync } from "@/src/shared/observability";
 import { toErrorMessage } from "@/src/shared/result";
 import { searchCandidate } from "@/src/features/retrieval/search-candidate";
-import { OpenAIEmbeddingsProvider } from "@/src/features/retrieval/openai-embeddings";
+import { OpenRouterEmbeddingsProvider } from "@/src/features/retrieval/openrouter-embeddings";
 import { getProject } from "@/src/features/projects/get-project";
 import { searchWeb } from "@/src/features/web-search/search-web";
 import {
@@ -47,9 +47,9 @@ type SearchWebOutput = {
 
 export function createToolRegistry({ requestId }: ToolRegistryContext) {
   const env = getEnv();
-  const embeddingProvider = new OpenAIEmbeddingsProvider({
-    apiKey: env.OPENAI_API_KEY,
-    model: env.OPENAI_EMBEDDING_MODEL,
+  const embeddingProvider = new OpenRouterEmbeddingsProvider({
+    apiKey: env.OPENROUTER_API_KEY,
+    model: env.OPENROUTER_EMBEDDING_MODEL,
   });
 
   return {

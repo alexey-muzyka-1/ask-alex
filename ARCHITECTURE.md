@@ -20,7 +20,7 @@ flowchart LR
 ## Module Boundaries
 
 - `features/chat`: orchestration, prompt, tool wiring, message mapping, tool envelopes.
-- `features/retrieval`: embedding provider contract, OpenAI adapter, ranking, snapshot access.
+- `features/retrieval`: embedding provider contract, OpenRouter adapter, ranking, snapshot access.
 - `features/projects`: structured project catalog access.
 - `features/web-search`: Tavily adapter + normalized search output.
 - `features/export`: plain PDF generation for chat history.
@@ -42,7 +42,7 @@ flowchart LR
 
 - Snapshot corpus is committed to repo for reproducibility and deployment simplicity.
 - Retrieval uses compact vectors to keep ingestion and runtime lightweight for demo scope.
-- PDF export is intentionally plain (roles + text + tool summaries) to satisfy mandatory capability with minimal complexity.
+- PDF export is intentionally minimal and focused on readable dialogue export.
 
 ## Migration Seams
 

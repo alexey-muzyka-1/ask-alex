@@ -28,8 +28,7 @@ No runtime or ingest dependency on Obsidian paths is allowed.
 
 - Next.js 16 (App Router), React 19, TypeScript
 - Vercel AI SDK v6 (`ai`, `@ai-sdk/react`)
-- OpenRouter provider (`@openrouter/ai-sdk-provider`)
-- OpenAI embeddings (`@ai-sdk/openai`)
+- OpenRouter provider (`@openrouter/ai-sdk-provider`) for chat and embeddings
 - Tavily web search (`@tavily/core`)
 
 ## Project Layout
@@ -57,8 +56,7 @@ Copy `.env.example` and configure:
 
 - `OPENROUTER_API_KEY`
 - `OPENROUTER_MODEL` (optional)
-- `OPENAI_API_KEY`
-- `OPENAI_EMBEDDING_MODEL` (optional)
+- `OPENROUTER_EMBEDDING_MODEL` (optional)
 - `TAVILY_API_KEY`
 
 ## Local Run
@@ -76,7 +74,7 @@ Open `http://localhost:3000`.
 pnpm ingest
 ```
 
-This reads only local files from `src/content/sources/*.md`, redacts sensitive patterns, chunks deterministically, embeds chunks, and writes `src/content/corpus.json`.
+This reads only local files from `src/content/sources/*.md`, redacts sensitive patterns, chunks deterministically, embeds chunks through OpenRouter, and writes `src/content/corpus.json`.
 
 ## CI & GitHub Actions Deploy
 

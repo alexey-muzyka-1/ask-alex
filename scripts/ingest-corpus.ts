@@ -1,7 +1,7 @@
 import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-import { OpenAIEmbeddingsProvider } from "@/src/features/retrieval/openai-embeddings";
+import { OpenRouterEmbeddingsProvider } from "@/src/features/retrieval/openrouter-embeddings";
 import type { CorpusChunk } from "@/src/features/retrieval/retrieval.types";
 import { chunkContent } from "@/scripts/chunk-content";
 import { redactContent } from "@/scripts/redact-content";
@@ -17,9 +17,9 @@ async function main() {
     );
   }
 
-  const provider = new OpenAIEmbeddingsProvider({
-    apiKey: process.env.OPENAI_API_KEY,
-    model: process.env.OPENAI_EMBEDDING_MODEL,
+  const provider = new OpenRouterEmbeddingsProvider({
+    apiKey: process.env.OPENROUTER_API_KEY,
+    model: process.env.OPENROUTER_EMBEDDING_MODEL,
   });
 
   const collectedChunks: CorpusChunk[] = [];
