@@ -9,6 +9,7 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
+.pnpm-store/
 
 # testing
 /coverage
@@ -19,10 +20,12 @@
 
 # production
 /build
+/dist
 
 # misc
 .DS_Store
 *.pem
+*.local
 
 # debug
 npm-debug.log*

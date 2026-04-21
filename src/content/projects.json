@@ -1,0 +1,55 @@
+[
+  {
+    "name": "viralmaxing",
+    "role": "Co-founder (CTO)",
+    "cycleTime": "Live product, full-time since Sep 2025",
+    "handoff": "Stable handoff through docs, modular backend and analytics workflows",
+    "description": "B2C SaaS for creators: research viral topics, generate scripts, track outcomes. Built and operated solo on the technical side.",
+    "links": [
+      {
+        "label": "Product",
+        "url": "https://viralmaxing.com"
+      }
+    ]
+  },
+  {
+    "name": "casino",
+    "role": "Backend Tech Lead",
+    "cycleTime": "2023 - present",
+    "handoff": "ADR-driven stakeholder communication and production incident ownership",
+    "description": "Enterprise online casino backend with Go/Kafka/Redis. Led rate-limited email service and large incident recovery with 200k+ message backfill.",
+    "links": []
+  },
+  {
+    "name": "ditto-music",
+    "role": "Mobile Tech Lead",
+    "cycleTime": "2023",
+    "handoff": "3-dev team leadership with architecture, reviews, and billing-critical changes",
+    "description": "Ionic + Vue mobile app in production for music creators, including revenue tracking and billing flows.",
+    "links": []
+  },
+  {
+    "name": "hikemyskill",
+    "role": "Founder / Solo Builder",
+    "cycleTime": "Shipped and sunset after GPT-4 market shift",
+    "handoff": "Learned and documented as proof of shipping discipline",
+    "description": "EdTech startup built from zero to production, later closed due to market changes and distribution constraints.",
+    "links": []
+  },
+  {
+    "name": "telegram-bots",
+    "role": "Solo Builder",
+    "cycleTime": "Multiple short cycles (days)",
+    "handoff": "Fast ideation to live deployment loop",
+    "description": "Eight Telegram bot experiments as rapid product validation loops.",
+    "links": []
+  },
+  {
+    "name": "agency-admin",
+    "role": "Solo Builder",
+    "cycleTime": "3 days",
+    "handoff": "Built with agentic workflow and integrated with Viralmaxing API",
+    "description": "Custom internal admin panel for agency progress tracking built via AI-assisted implementation.",
+    "links": []
+  }
+]

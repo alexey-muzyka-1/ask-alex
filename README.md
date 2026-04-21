@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ask Alex
 
-## Getting Started
+Ask Alex is a deployable demo assistant that answers questions about Alex Muzyka's background, projects, and engineering decisions using a grounded corpus + tool calling.
 
-First, run the development server:
+## What This Submission Shows
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Feature-first modular architecture for Next.js App Router.
+- Grounded responses via `search_candidate` over a sanitized corpus snapshot.
+- Structured project lookup via `get_project`.
+- Optional external augmentation via `search_web`.
+- Streaming chat and minimal PDF export.
+
+## Tech Stack
+
+- Next.js 16 (App Router), React 19, TypeScript
+- Vercel AI SDK v6 (`ai`, `@ai-sdk/react`)
+- OpenRouter provider (`@openrouter/ai-sdk-provider`)
+- OpenAI embeddings (`@ai-sdk/openai`)
+- Tavily web search (`@tavily/core`)
+
+## Project Layout
+
+Build-time ingestion scripts intentionally live outside `src/` because they are not part of the runtime application graph.
+
+```txt
+src/
+  app/api/chat/route.ts
+  app/api/export/route.ts
+  features/*
+  components/chat/*
+  content/corpus.json
+  content/projects.json
+scripts/
+  ingest-corpus.ts
+  redact-content.ts
+  chunk-content.ts
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Environment Variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Copy `.env.example` and configure:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `OPENROUTER_API_KEY`
+- `OPENROUTER_MODEL` (optional)
+- `OPENAI_API_KEY`
+- `OPENAI_EMBEDDING_MODEL` (optional)
+- `TAVILY_API_KEY`
 
-## Learn More
+## Local Run
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+pnpm install
+pnpm dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Open `http://localhost:3000`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Corpus Ingestion
 
-## Deploy on Vercel
+```bash
+pnpm ingest
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This reads local source docs, redacts sensitive patterns, chunks deterministically, embeds chunks, and writes `src/content/corpus.json`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## CI & GitHub Actions Deploy
+
+Workflow file: `.github/workflows/vercel-deploy.yml`
+
+It runs:
+1. `pnpm lint`
+2. `pnpm test`
+3. `pnpm typecheck`
+4. `pnpm build`
+5. Deploy to Vercel:
+   - Preview on pull requests to `main`
+   - Production on pushes to `main`
+
+### Required GitHub Secrets
+
+- `VERCEL_TOKEN`
+- `VERCEL_ORG_ID`
+- `VERCEL_PROJECT_ID`
+
+You can get IDs from Vercel project settings and generate `VERCEL_TOKEN` from your Vercel account tokens page.
+
+## Deploy
+
+Deploy is automated via GitHub Actions + Vercel when secrets are configured.
