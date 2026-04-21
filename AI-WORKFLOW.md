@@ -35,8 +35,8 @@ This project was built as a demo-first architecture exercise:
 
 ### Decision 3: Snapshot corpus committed to repo
 
-- Runtime reading from local Obsidian paths was rejected.
-- Final decision: sanitized snapshot in `src/content/corpus.json` for reproducibility and public deploy safety.
+- Runtime/path-based local loading was rejected.
+- Final decision: sanitized snapshot in `src/content/corpus.json` and source files in `src/content/sources/*.md` for reproducibility and public deploy safety.
 
 ## Iteration Pattern
 

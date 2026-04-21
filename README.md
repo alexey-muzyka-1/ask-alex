@@ -2,6 +2,20 @@
 
 Ask Alex is a deployable demo assistant that answers questions about Alex Muzyka's background, projects, and engineering decisions using a grounded corpus + tool calling.
 
+## Where Data Is Stored
+
+Runtime data lives only in the repository:
+
+- `src/content/corpus.json` — retrieval snapshot used by `search_candidate`
+- `src/content/projects.json` — structured project catalog used by `get_project`
+
+Build-time source files for ingestion also live only in the repository:
+
+- `src/content/sources/cv.md`
+- `src/content/sources/startup-context.md`
+
+No runtime or ingest dependency on Obsidian paths is allowed.
+
 ## What This Submission Shows
 
 - Feature-first modular architecture for Next.js App Router.
@@ -30,6 +44,7 @@ src/
   components/chat/*
   content/corpus.json
   content/projects.json
+  content/sources/*.md
 scripts/
   ingest-corpus.ts
   redact-content.ts
@@ -61,7 +76,7 @@ Open `http://localhost:3000`.
 pnpm ingest
 ```
 
-This reads local source docs, redacts sensitive patterns, chunks deterministically, embeds chunks, and writes `src/content/corpus.json`.
+This reads only local files from `src/content/sources/*.md`, redacts sensitive patterns, chunks deterministically, embeds chunks, and writes `src/content/corpus.json`.
 
 ## CI & GitHub Actions Deploy
 

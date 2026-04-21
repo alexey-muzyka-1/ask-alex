@@ -4,7 +4,14 @@ import { useMemo, useState } from "react";
 
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, type UIMessage } from "ai";
-import { Code2, Download, RefreshCcw, Square } from "lucide-react";
+import {
+  Code2,
+  Download,
+  ExternalLink,
+  RefreshCcw,
+  Send,
+  Square,
+} from "lucide-react";
 import Image from "next/image";
 
 import ClaudeStyleChatInput, {
@@ -134,26 +141,48 @@ export function ChatShell() {
               href="https://viralmaxing.com"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex min-h-10 items-center gap-2 rounded-full bg-bg-100/85 px-3 text-sm font-medium text-text-300 shadow-sm ring-1 ring-bg-300/80 transition hover:text-text-100 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/30"
+              className="group inline-flex min-h-11 items-center gap-2 rounded-xl border border-bg-300 bg-bg-100 px-3 py-2 text-sm font-medium text-text-300 shadow-sm transition hover:border-accent/35 hover:bg-bg-0 hover:text-text-100 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/30"
             >
               <Image
                 src="/vm-logo.jpg"
                 alt="Логотип Viralmaxing"
-                width={16}
-                height={16}
+                width={18}
+                height={18}
                 className="rounded"
               />
-              <span>Viralmaxing</span>
+              <span>Основной проект</span>
+              <ExternalLink
+                className="h-3.5 w-3.5 text-text-400 transition group-hover:text-text-200"
+                aria-hidden="true"
+              />
             </a>
 
             <a
               href="https://github.com/alexey-muzyka-1/ask-alex"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex min-h-10 items-center gap-2 rounded-full bg-bg-100/85 px-3 text-sm font-medium text-text-300 shadow-sm ring-1 ring-bg-300/80 transition hover:text-text-100 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/30"
+              className="group inline-flex min-h-11 items-center gap-2 rounded-xl border border-bg-300 bg-bg-100 px-3 py-2 text-sm font-medium text-text-300 shadow-sm transition hover:border-accent/35 hover:bg-bg-0 hover:text-text-100 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/30"
             >
               <Code2 className="h-4 w-4" aria-hidden="true" />
-              <span>Исходники GitHub</span>
+              <span>Исходники</span>
+              <ExternalLink
+                className="h-3.5 w-3.5 text-text-400 transition group-hover:text-text-200"
+                aria-hidden="true"
+              />
+            </a>
+
+            <a
+              href="https://t.me/alexeymuzykablog"
+              target="_blank"
+              rel="noreferrer"
+              className="group inline-flex min-h-11 items-center gap-2 rounded-xl border border-bg-300 bg-bg-100 px-3 py-2 text-sm font-medium text-text-300 shadow-sm transition hover:border-accent/35 hover:bg-bg-0 hover:text-text-100 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/30"
+            >
+              <Send className="h-4 w-4" aria-hidden="true" />
+              <span>Телеграм-блог</span>
+              <ExternalLink
+                className="h-3.5 w-3.5 text-text-400 transition group-hover:text-text-200"
+                aria-hidden="true"
+              />
             </a>
           </nav>
         </header>
@@ -162,7 +191,7 @@ export function ChatShell() {
           <div className="min-h-0 flex-1 p-3 sm:p-4">
             <div className="h-full min-h-[52vh] overflow-hidden rounded-2xl bg-bg-0/80">
               {messages.length === 0 ? (
-                <div className="flex h-full items-center justify-center bg-bg-200/45 px-4 py-6">
+                <div className="flex h-full items-center justify-center px-4 py-6">
                   <div className="mx-auto flex w-full max-w-2xl flex-col items-center justify-center gap-6 text-center">
                     <div>
                       <p className="text-base font-medium text-text-200">

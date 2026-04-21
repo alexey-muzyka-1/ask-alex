@@ -1,7 +1,7 @@
 [
   {
     "chunkId": "founder-cv-md-f3ac5772ad0c",
-    "source": "Founder CV.md",
+    "source": "cv.md",
     "text": "# Алексей Музыка **Контакт:** Telegram [@Lesha_Muzyka](https://t.me/Lesha_Muzyka) · alexmusyka11@gmail.com · +375 44 783 00 31 7 лет в продакшн-разработке. Tech lead backend-команды и tech lead mobile-команды. Работал и в стартапах (свои запуски, свои команды), и в корпоративной среде. Сейчас — co-founder (CTO) B2C SaaS-продукта с платящими клиентами. Полный PLG-цикл: гипотеза на данных → имплементация → замер → решение. **Языки:** Русский — native, English — B2 ___ ## Viralmaxing — текущий проект Co-founder (CTO). \"We help creators go viral using data, not guesswork\": research что вирусится → AI-скрипт → трекинг результатов. **Что",
     "embedding": [
       0.3336435389543597,
@@ -24,7 +24,7 @@
   },
   {
     "chunkId": "founder-cv-md-9047646e5b2d",
-    "source": "Founder CV.md",
+    "source": "cv.md",
     "text": "Co-founder (CTO). \"We help creators go viral using data, not guesswork\": research что вирусится → AI-скрипт → трекинг результатов. **Что лично делаю (solo):** | Стрим | Детали | | ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | | **Код и инфра** | Весь код от нуля до прода. Свои пайплайны, очереди обновлений блогеров, фоновые воркеры, инфраструктура. Всю систему поддерживаю один. | | **Продукт** | Discovery, UX, биллинг, фичи. | | **Data-driven decisions** | На аналитике PostHog расширил продукт из B2B (длинный цикл продаж мешал быстро тестировать гипотезы) в B2C — отдельный онбординг, подписочная монетизация,",
     "embedding": [
       -0.0020008966025619225,
@@ -47,8 +47,8 @@
   },
   {
     "chunkId": "founder-cv-md-94d3a7cba056",
-    "source": "Founder CV.md",
-    "text": "аналитике PostHog расширил продукт из B2B (длинный цикл продаж мешал быстро тестировать гипотезы) в B2C — отдельный онбординг, подписочная монетизация, открыл PLG-сегмент. AI-конвейер рилсов на Remotion для быстрой проверки контент-гипотез и постинга. | | **Админка агентства за 3 дня** | Через агентские пайплайны Claude Code: трекает прогресс креаторов, через API Viralmaxing подтягивает данные по клиентам. | | **Agent skills library** | Собственная библиотека в Obsidian под повторяющиеся задачи: content research, продуктовая аналитика, код-пайплайны. | **Масштаб системы сегодня:** - База: **1M+ видео, 50k+ аккаунтов** под обработкой - Двойная структура компании: co-founder",
+    "source": "cv.md",
+    "text": "аналитике PostHog расширил продукт из B2B (длинный цикл продаж мешал быстро тестировать гипотезы) в B2C — отдельный онбординг, подписочная монетизация, открыл PLG-сегмент. AI-конвейер рилсов на Remotion для быстрой проверки контент-гипотез и постинга. | | **Админка агентства за 3 дня** | Через агентские пайплайны Claude Code: трекает прогресс креаторов, через API Viralmaxing подтягивает данные по клиентам. | | **Agent skills library** | Собственная библиотека в knowledge base под повторяющиеся задачи: content research, продуктовая аналитика, код-пайплайны. | **Масштаб системы сегодня:** - База: **1M+ видео, 50k+ аккаунтов** под обработкой - Двойная структура компании: co-founder",
     "embedding": [
       -0.34103796076802795,
       0.20072519976632497,
@@ -70,7 +70,7 @@
   },
   {
     "chunkId": "founder-cv-md-034aa1670b22",
-    "source": "Founder CV.md",
+    "source": "cv.md",
     "text": "продуктовая аналитика, код-пайплайны. | **Масштаб системы сегодня:** - База: **1M+ видео, 50k+ аккаунтов** под обработкой - Двойная структура компании: co-founder ведёт agency-трек с командой, я веду PLG SaaS-трек **Live продукт:** [viralmaxing.com](https://viralmaxing.com) --- ## Предыдущий опыт ### Enterprise online casino — Tech lead backend (2023 — н.в.) **Клиент:** один из топовых лицензированных онлайн-казино Восточной Европы (Литва/Латвия). Название — под NDA. **Роль:** Tech lead backend-команды. **Stack:** Go, Kafka, Redis, PHP/Symfony . Три ключевые зоны за время работы: | Зона | Состав / срок | Что сделал | | --------------------------------- | ------------------------------------------- |",
     "embedding": [
       0.3480101559494179,
@@ -93,7 +93,7 @@
   },
   {
     "chunkId": "founder-cv-md-7eb92d492cdf",
-    "source": "Founder CV.md",
+    "source": "cv.md",
     "text": "ключевые зоны за время работы: | Зона | Состав / срок | Что сделал | | --------------------------------- | ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | | **Rate-limit email service** | solo, 4 недели / ~4 дня активной разработки | Go/Kafka consumer → batch-парсинг → throttled отправка через провайдера. Держит пики, не теряет сообщения, не кладёт провайдера. | | **Production incident recovery** | вдвоём, ~1 месяц | При отказе Kafka потеряно **200k+ сообщений**. Кастомный Go-сервис: прошёл по backlog, агрегировал, реэмитировал в customer-обработчики. Ключевой клиент удержан. | | **Architecture stakeholder work** | регулярно | Выступления",
     "embedding": [
       0.21763794088699667,
@@ -116,7 +116,7 @@
   },
   {
     "chunkId": "founder-cv-md-2ea3ce1c9e32",
-    "source": "Founder CV.md",
+    "source": "cv.md",
     "text": "Go-сервис: прошёл по backlog, агрегировал, реэмитировал в customer-обработчики. Ключевой клиент удержан. | | **Architecture stakeholder work** | регулярно | Выступления на ADR-площадке (Architecture Decision Records) перед архитекторами компании: проблемы существующей архитектуры, защита решений и интересов команды. | Детали конкретных систем — на звонке. --- ### EdTech — собственный проект Запустил сам от 0 до прода. Закрыл через несколько месяцев — не смог выстроить маркетинг. Proof of shipping, не proof of growth. Собрал и запустил **8 разных Telegram-ботов** как продуктовые эксперименты. Цикл от идеи до live — дни, не недели. ---",
     "embedding": [
       -0.29602109041732055,
@@ -139,7 +139,7 @@
   },
   {
     "chunkId": "founder-cv-md-f16a03f150e7",
-    "source": "Founder CV.md",
+    "source": "cv.md",
     "text": "growth. Собрал и запустил **8 разных Telegram-ботов** как продуктовые эксперименты. Цикл от идеи до live — дни, не недели. --- ### Tech lead mobile-команды — Ditto Music (2023) Команда 3 разработчика, стек Ionic + Vue. Собирали мобильное приложение для музыкального сервиса. Tech lead + hands-on: архитектурные решения, код-ревью, менторинг, критичные участки кода сам. Приложение в проде, база активных пользователей ~2k, опыт работы с revenue-трекингом и биллингом на мобайле. --- ### Дополнительный backend-опыт В корпоративном слое: enterprise retail микросервисы (менторинг juniors), blockchain lending (USDT + React), video web app (Animoto-like), корпоративный",
     "embedding": [
       0.05801156837794962,
@@ -162,7 +162,7 @@
   },
   {
     "chunkId": "founder-cv-md-f3fb6a64340d",
-    "source": "Founder CV.md",
+    "source": "cv.md",
     "text": "Дополнительный backend-опыт В корпоративном слое: enterprise retail микросервисы (менторинг juniors), blockchain lending (USDT + React), video web app (Animoto-like), корпоративный EdTech на Symfony 6.1 + Vue 3 (Hexagonal DDD с нуля). --- ## Tech stack | | | | --------------------- | ----------------------------------------------------------------------- | | **Backend** | Go, PHP/Symfony, Laravel; DDD + CQRS + Hexagonal | | **Frontend / Mobile** | Vue, React, TypeScript, Tailwind; Ionic | | **Infra** | Docker, Kafka, Redis, PostgreSQL, Elasticsearch; GitHub Actions, Sentry | | **Analytics** | PostHog, Mixpanel | | **AI** | Claude Code /",
     "embedding": [
       0.060300154747339484,
@@ -185,7 +185,7 @@
   },
   {
     "chunkId": "founder-cv-md-059a76a7ea8a",
-    "source": "Founder CV.md",
+    "source": "cv.md",
     "text": "Kafka, Redis, PostgreSQL, Elasticsearch; GitHub Actions, Sentry | | **Analytics** | PostHog, Mixpanel | | **AI** | Claude Code / Codex + MCP, свои agent skills; Cursor; Wispr Flow | --- ## Leadership - Tech lead backend-команды (enterprise email-сервис) - Tech lead mobile-команды — 3 разработчика (Ditto Music) - Менторинг 2 junior PHP-разработчиков на enterprise retail проекте",
     "embedding": [
       -0.14848574816961538,
@@ -208,7 +208,7 @@
   },
   {
     "chunkId": "yc-application-s2026-md-b053df03b732",
-    "source": "YC Application S2026.md",
+    "source": "startup-context.md",
     "text": "--- tags: - Marketing - YC created: 2026-04-09 status: draft --- [[Pitch]] | [[YC Profile]] / [Хороший гайд на заполнение](https://getfluently.notion.site/Y-Combinator-Application-Guide-1286a9ce04d98004b4dac50cf66fb883) / [[topic. Accelerator applications|Полезный топик: что ищут инвесторы в заявках]] ___ ## Founders #### Who writes code, or does other technical work on your product? Was any of it done by a non-founder? I (Alex) write all the code. No non-founder technical work. #### Are you looking for a cofounder? No #### How long have the founders known one another and how did you meet? Since summer 2025. We were",
     "embedding": [
       -0.11902302011185385,
@@ -231,7 +231,7 @@
   },
   {
     "chunkId": "yc-application-s2026-md-31938f6a402e",
-    "source": "YC Application S2026.md",
+    "source": "startup-context.md",
     "text": "No #### How long have the founders known one another and how did you meet? Since summer 2025. We were building similar projects solo. I needed someone who could sell, he needed someone who could build. Working together since. --- ## Company #### Company name Viralmaxing #### Describe what your company does in 50 characters or less data-driven topic picking for creators #### Company URL https://viralmaxing.com #### Please provide a link to the product https://viralmaxing.com #### What is your company going to make? Viralmaxing helps video creators pick topics based",
     "embedding": [
       0.3737070833001505,
@@ -254,7 +254,7 @@
   },
   {
     "chunkId": "yc-application-s2026-md-7264b81fdd6f",
-    "source": "YC Application S2026.md",
+    "source": "startup-context.md",
     "text": "link to the product https://viralmaxing.com #### What is your company going to make? Viralmaxing helps video creators pick topics based on data, not intuition. We analyze 500K+ videos from TikTok, Instagram, and YouTube and score each with a virality metric (VM Score, 0-100). Full pipeline: research what's viral → write a script with AI → track performance. We also run a content agency on top of the same product, which funds development and gives us direct user feedback. #### Where do you live now, and where would the company be",
     "embedding": [
       -0.12015476254689124,
@@ -277,7 +277,7 @@
   },
   {
     "chunkId": "yc-application-s2026-md-d75a220681be",
-    "source": "YC Application S2026.md",
+    "source": "startup-context.md",
     "text": "funds development and gives us direct user feedback. #### Where do you live now, and where would the company be based after YC? Minsk, Belarus / San Francisco, USA #### Explain your decision regarding location US is the largest creator economy. Our product works for any language, but SF gives us access to the English-speaking market, investors, and the creator ecosystem. --- ## Progress #### How far along are you? - Live product with paying customers - 30 paying SaaS users, 6 agency clients - SaaS MRR: $1,050 - 38%",
     "embedding": [
       0.25609582556268434,
@@ -300,7 +300,7 @@
   },
   {
     "chunkId": "yc-application-s2026-md-adaf85682a15",
-    "source": "YC Application S2026.md",
+    "source": "startup-context.md",
     "text": "- Live product with paying customers - 30 paying SaaS users, 6 agency clients - SaaS MRR: $1,050 - 38% trial-to-paid conversion - Agency MRR: $10,000 - Profitable #### How long have each of you been working on this? How much of that has been full-time? Both full-time since September 2025. I build the product, my co-founder runs sales and agency operations. Before Viralmaxing, I built 3 startups solo (all technical). #### What tech stack are you using, or planning to use, to build this product? Include AI models and",
     "embedding": [
       -0.08067245459372162,
@@ -323,7 +323,7 @@
   },
   {
     "chunkId": "yc-application-s2026-md-716dc14e96ee",
-    "source": "YC Application S2026.md",
+    "source": "startup-context.md",
     "text": "technical). #### What tech stack are you using, or planning to use, to build this product? Include AI models and AI coding tools you use. Go, PostgreSQL, Nuxt 3, TailwindCSS, Docker, self-hosted. Claude and GPT for AI features. Claude for daily coding and marketing automatisations #### Are people using your product? Yes #### How many active users or customers do you have? How many are paying? Who is paying you the most, and how much do they pay you? 30 paying SaaS users, 6 agency clients. Largest client (health/wellness company",
     "embedding": [
       0.2593324091415475,
@@ -346,7 +346,7 @@
   },
   {
     "chunkId": "yc-application-s2026-md-257a4e5d2c53",
-    "source": "YC Application S2026.md",
+    "source": "startup-context.md",
     "text": "the most, and how much do they pay you? 30 paying SaaS users, 6 agency clients. Largest client (health/wellness company managing ambassador network) pays ~$5,500/month. 3 agency clients manage networks of 100+ bloggers each. #### Do you have revenue? Yes #### How much revenue? | Month | USD | | ------------- | ------- | | October 2025 | $3,000 | | November 2025 | $2,700 | | December 2025 | $4,700 | | January 2026 | $12,000 | | February 2026 | $6,400 | | March 2026 | $9,200 |",
     "embedding": [
       0.367152819938423,
@@ -369,7 +369,7 @@
   },
   {
     "chunkId": "yc-application-s2026-md-ae00e9c4b393",
-    "source": "YC Application S2026.md",
+    "source": "startup-context.md",
     "text": "$4,700 | | January 2026 | $12,000 | | February 2026 | $6,400 | | March 2026 | $9,200 | #### Where does your revenue come from? Two sources: - SaaS subscriptions (viralmaxing.com): ~$1,050/month from 30 paying users - Content marketing agency: ~$8,150/month from 6 clients #### Anything else you would like us to know regarding your revenue or growth rate? SaaS launched Jan 2026, $1,050 MRR, zero paid acquisition. Profitable every month since October 2025. #### If you are applying with the same idea as a previous batch, did",
     "embedding": [
       -0.4317957942607751,
@@ -392,7 +392,7 @@
   },
   {
     "chunkId": "yc-application-s2026-md-8966ebc9fac0",
-    "source": "YC Application S2026.md",
+    "source": "startup-context.md",
     "text": "Profitable every month since October 2025. #### If you are applying with the same idea as a previous batch, did anything change? Different idea. Applied in 2024 with HikeMySkill (EdTech). Shut it down after GPT-4 made the market unwinnable. Switched to Viralmaxing after seeing stronger demand signal in creator tools. #### Incubator/accelerator participation None --- ## Idea #### Why did you pick this idea to work on? Do you have domain expertise in this area? How do you know people need what you're making? We run a content agency ourselves.",
     "embedding": [
       0.35552590628048714,
@@ -415,7 +415,7 @@
   },
   {
     "chunkId": "yc-application-s2026-md-bde72bb01f0f",
-    "source": "YC Application S2026.md",
+    "source": "startup-context.md",
     "text": "domain expertise in this area? How do you know people need what you're making? We run a content agency ourselves. We felt the pain: hours scrolling competitors, guessing which topics work, manually posting everywhere. We built Viralmaxing to fix our own workflow. Then agency clients wanted it. Then strangers signed up. 38% of people who try the product pay for it. #### Who are your competitors? What do you understand about your business that they don't? VidIQ/TubeBuddy: YouTube SEO only, no cross-platform analysis. Metricool/Later: scheduling without research. Shortimize/viral.app: tracking of",
     "embedding": [
       0.16871427996273247,
@@ -438,7 +438,7 @@
   },
   {
     "chunkId": "yc-application-s2026-md-5c9830506ed7",
-    "source": "YC Application S2026.md",
+    "source": "startup-context.md",
     "text": "about your business that they don't? VidIQ/TubeBuddy: YouTube SEO only, no cross-platform analysis. Metricool/Later: scheduling without research. Shortimize/viral.app: tracking of accounts in one table Our insight: the creator tools market is fragmented into point solutions. Creators use 5+ tools. The winner owns the full workflow starting from the data layer. #### How do or will you make money? How much could you make? SaaS subscriptions: $9/mo, $29/mo, $79/mo. Agency clients on custom pricing. Current: $10,000/month total, profitable. Bottom-up TAM: 50M+ content creators worldwide. At $29/mo average, we need 287K paying",
     "embedding": [
       0.3405178784877414,
@@ -461,7 +461,7 @@
   },
   {
     "chunkId": "yc-application-s2026-md-4dcc48831a2d",
-    "source": "YC Application S2026.md",
+    "source": "startup-context.md",
     "text": "on custom pricing. Current: $10,000/month total, profitable. Bottom-up TAM: 50M+ content creators worldwide. At $29/mo average, we need 287K paying users for $100M ARR. That's 0.6% of creators. #### Which category best applies to your company? B2B Software and Services #### Other ideas considered 1. Niche intelligence for brands — same data, sold to brands/agencies as market intelligence instead of creator tools. Higher ACV, different buyer. 2. AI content producer — user describes what they want, AI generates a full content plan with scripts based on what's viral in their",
     "embedding": [
       0.32247489116016115,
@@ -484,7 +484,7 @@
   },
   {
     "chunkId": "yc-application-s2026-md-c8927b67c961",
-    "source": "YC Application S2026.md",
+    "source": "startup-context.md",
     "text": "— user describes what they want, AI generates a full content plan with scripts based on what's viral in their niche. --- ## Equity #### Have you formed any legal entity yet? Yes #### Please list all legal entities 1. Individual Entrepreneur (IP), Belarus — primary operating entity 2. Individual Entrepreneur (IP), Russia — for Russian market payments #### Please describe the breakdown of the equity ownership in percentages among the founders, employees and any other stockholders. Alex (CTO, technical founder): 50% Ilya (CEO, sales & agency): 50% #### Have",
     "embedding": [
       0.40104002146673956,
@@ -507,7 +507,7 @@
   },
   {
     "chunkId": "yc-application-s2026-md-5ee81562343d",
-    "source": "YC Application S2026.md",
+    "source": "startup-context.md",
     "text": "the founders, employees and any other stockholders. Alex (CTO, technical founder): 50% Ilya (CEO, sales & agency): 50% #### Have you taken any investment yet? No #### Are you currently fundraising? No. We are profitable. --- ## Curious #### What convinced you to apply to Y Combinator? We want to build a global company, not a lifestyle business. Product works, people pay, market is huge. But we're in Minsk with no access to the US creator ecosystem or investors. YC is the fastest path. #### How did you hear about",
     "embedding": [
       0.20366918327052339,
@@ -530,7 +530,7 @@
   },
   {
     "chunkId": "yc-application-s2026-md-a73e4cf99796",
-    "source": "YC Application S2026.md",
+    "source": "startup-context.md",
     "text": "no access to the US creator ecosystem or investors. YC is the fastest path. #### How did you hear about Y Combinator? Applied previously in 2024 with a different startup (HikeMySkill).",
     "embedding": [
       0.16006718716839116,
@@ -553,7 +553,7 @@
   },
   {
     "chunkId": "claude-md-a4e00329fc92",
-    "source": "CLAUDE.md",
+    "source": "startup-context.md",
     "text": "# SaaS — Viralmaxing ## Product Context Viralmaxing — SaaS для контент-креаторов и инфоблогеров. Полный цикл работы с короткими видео: исследование вирусного контента → AI-ассистент → написание сценариев → автопостинг в 7 платформ → аналитика результатов. База: 125k+ видео из TikTok/Instagram/YouTube с VM Score (0-100). ### Product Blocks | Блок | Роуты | Суть | |------|-------|------| | Explore Research | `/explore/ideas`, `/explore/accounts`, `/explore/videos` | Поиск идей по ключевым словам, анализ конкурентов | | My Analytics | `/my/insights`, `/my/posts`, `/my/videos`, `/my/deep`, `/my/accounts` | Аналитика собственных аккаунтов и видео | | Content",
     "embedding": [
       0.3301611002027864,
@@ -576,7 +576,7 @@
   },
   {
     "chunkId": "claude-md-063822176ceb",
-    "source": "CLAUDE.md",
+    "source": "startup-context.md",
     "text": "конкурентов | | My Analytics | `/my/insights`, `/my/posts`, `/my/videos`, `/my/deep`, `/my/accounts` | Аналитика собственных аккаунтов и видео | | Content Studio | `/work/scenarios`, `/work/collections` | Контент-план (kanban/calendar), сценарии с AI rewrite | | Autoposting | `/work/posts`, `/work/posts/calendar`, `/work/posts/connections` | Создание постов, расписание, 7 соцсетей | | AI Assistant | `/assistant`, `/assistant/context` | Чат с AI, proposals, artifacts, настройка контекста | | Billing | `/billing`, `/purchase/*` | Подписка, checkout, usage meters | | Public/Viral | `/viral`, `/reports/*` | Публичные тренды, аналитические отчёты | ### Sidebar Navigation ``` /dashboard Найти идеи: /explore/ideas,",
     "embedding": [
       0.2515493043694435,
@@ -599,7 +599,7 @@
   },
   {
     "chunkId": "claude-md-ea0b50fa6500",
-    "source": "CLAUDE.md",
+    "source": "startup-context.md",
     "text": "| | Public/Viral | `/viral`, `/reports/*` | Публичные тренды, аналитические отчёты | ### Sidebar Navigation ``` /dashboard Найти идеи: /explore/ideas, /viral, /explore/videos, /explore/accounts Моя аналитика: /my/insights, /my/posts, /my/deep, /my/accounts, /my/videos Контент студия: /work/scenarios, /work/collections Автопостинг: /work/posts, /work/posts/drafts, calendar, connections, resources ``` ### User Journeys (кратко) - **Funnel:** `/` → `/viral` → auth-gate → signup → dashboard (или viral-intent redirect) - **Research:** `/explore/ideas` → keyword search → save to collection → take to scenarios - **Content:** `/work/scenarios` → write/edit → AI rewrite → `/work/posts` → schedule/publish - **Analytics:** `/my/accounts` → add",
     "embedding": [
       -0.4016510096061049,
@@ -622,7 +622,7 @@
   },
   {
     "chunkId": "claude-md-8e1bbfb94f77",
-    "source": "CLAUDE.md",
+    "source": "startup-context.md",
     "text": "take to scenarios - **Content:** `/work/scenarios` → write/edit → AI rewrite → `/work/posts` → schedule/publish - **Analytics:** `/my/accounts` → add own account → `/my/insights` → `/my/deep` - **Billing:** `/billing` → `/purchase/checkout` → success/failed ### Key Data Entities - `analytics_posts` — видео с vm_score, engagement, metadata (включая music_meta в JSONB) - `analytics_accounts` — аккаунты (свои is_own=true, конкуренты is_own=false) - `analytics_search_sessions` — сохранённые поисковые сессии - scenarios, posts (autoposting), subscriptions ### Current Priorities (Q2 2026) - P0: Система ниш (Intelligence Layer) — таксономия ниш для 125k видео + Niche Heatmap - P0:",
     "embedding": [
       0.395189022720711,
@@ -645,8 +645,8 @@
   },
   {
     "chunkId": "claude-md-864c12dd5992",
-    "source": "CLAUDE.md",
-    "text": "Priorities (Q2 2026) - P0: Система ниш (Intelligence Layer) — таксономия ниш для 125k видео + Niche Heatmap - P0: Онбординг fix — Reg→Trial 9% → 25%+ - P0: BePaid (международные платежи) — ~80% done - Подробнее: `../obsidian/01 Viralmaxing/Эпики/00 Эпики.md` ### Не трогать без согласования - Auth flow (`useAuth.ts`, `viral-intent.ts`) — влияет на конверсию - VM Score formula (migration 000270) — core метрика продукта - Billing/subscription logic — деньги - Analytics data pipeline (Apify, ScrapeCreators) — данные ## Внешние сервисы и интеграции | Сервис | Назначение | Клиент в коде",
+    "source": "startup-context.md",
+    "text": "Priorities (Q2 2026) - P0: Система ниш (Intelligence Layer) — таксономия ниш для 125k видео + Niche Heatmap - P0: Онбординг fix — Reg→Trial 9% → 25%+ - P0: BePaid (международные платежи) — ~80% done - Подробнее: внутренние эпики и заметки ### Не трогать без согласования - Auth flow (`useAuth.ts`, `viral-intent.ts`) — влияет на конверсию - VM Score formula (migration 000270) — core метрика продукта - Billing/subscription logic — деньги - Analytics data pipeline (Apify, ScrapeCreators) — данные ## Внешние сервисы и интеграции | Сервис | Назначение | Клиент в коде",
     "embedding": [
       -0.33523006224214513,
       0.23997343253399459,
@@ -668,7 +668,7 @@
   },
   {
     "chunkId": "claude-md-276692b5e91d",
-    "source": "CLAUDE.md",
+    "source": "startup-context.md",
     "text": "Analytics data pipeline (Apify, ScrapeCreators) — данные ## Внешние сервисы и интеграции | Сервис | Назначение | Клиент в коде | |--------|-----------|---------------| | OpenRouter | AI генерация контента | `pkg/openrouter/` | | Apify | Веб-скрейпинг | `pkg/apify/` | | ScrapeCreators | Данные креаторов | `pkg/scrapecreators/` | | CloudPayments | Платежи | `internal/user/purchase/cloudpayments/` | | Resend | Email рассылки | `pkg/email/` | | PostHog | Продуктовая аналитика | `pkg/telemetry/` (backend), `plugins/posthog.client.ts` (frontend) | | OTEL | Observability/трейсинг | `pkg/telemetry/` | | Telegram | Бот + нотификации | `pkg/telegram/` | | Cloudflare",
     "embedding": [
       -0.01930858908779496,
@@ -691,7 +691,7 @@
   },
   {
     "chunkId": "claude-md-117f3df6eb53",
-    "source": "CLAUDE.md",
+    "source": "startup-context.md",
     "text": "(frontend) | | OTEL | Observability/трейсинг | `pkg/telemetry/` | | Telegram | Бот + нотификации | `pkg/telegram/` | | Cloudflare R2 | Хранилище медиа | `internal/repository/r2/` | ### OAuth провайдеры Google, TikTok, LinkedIn, Threads, Instagram, Pinterest, Yandex, Bluesky Конфигурация: `pkg/http/oauth/`, env переменные `*_CLIENT_ID` / `*_CLIENT_SECRET` ## Сервисы | Сервис | Стек | Описание | |--------|------|----------| | `backend/` | Go, PostgreSQL, R2 | REST API + Telegram bot, Clean Architecture + DDD | | `client/` | Nuxt 3, TypeScript, TanStack Query | SPA/SSR фронтенд | | `blog/` | Nuxt 3 |",
     "embedding": [
       0.07220637619664123,
@@ -714,7 +714,7 @@
   },
   {
     "chunkId": "claude-md-c0f7fe05a8f2",
-    "source": "CLAUDE.md",
+    "source": "startup-context.md",
     "text": "DDD | | `client/` | Nuxt 3, TypeScript, TanStack Query | SPA/SSR фронтенд | | `blog/` | Nuxt 3 | Публичный блог | | `api-docs/` | OpenAPI | Swagger документация | ## Правила - **Backend паттерны**: см. `backend/CLAUDE.md` - **Frontend паттерны**: см. `client/CLAUDE.md`",
     "embedding": [
       0.32874208957401135,

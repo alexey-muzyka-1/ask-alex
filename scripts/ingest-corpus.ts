@@ -1,4 +1,4 @@
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 import { OpenAIEmbeddingsProvider } from "@/src/features/retrieval/openai-embeddings";
@@ -6,13 +6,17 @@ import type { CorpusChunk } from "@/src/features/retrieval/retrieval.types";
 import { chunkContent } from "@/scripts/chunk-content";
 import { redactContent } from "@/scripts/redact-content";
 
-const SOURCE_FILES = [
-  "/Users/a.muzyka/Documents/01 core/obsidian/90 work/Founder CV.md",
-  "/Users/a.muzyka/Documents/01 core/obsidian/01 Viralmaxing/Маркетинг/Pitching/YC Application S2026.md",
-  "/Users/a.muzyka/Documents/01 core/viralmaxing/saas/CLAUDE.md",
-];
+const SOURCES_DIR = path.join(process.cwd(), "src/content/sources");
 
 async function main() {
+  const sourceFiles = await getSourceFiles();
+
+  if (sourceFiles.length === 0) {
+    throw new Error(
+      "No source files found in src/content/sources. Add local markdown files before running ingest.",
+    );
+  }
+
   const provider = new OpenAIEmbeddingsProvider({
     apiKey: process.env.OPENAI_API_KEY,
     model: process.env.OPENAI_EMBEDDING_MODEL,
@@ -20,17 +24,12 @@ async function main() {
 
   const collectedChunks: CorpusChunk[] = [];
 
-  for (const absolutePath of SOURCE_FILES) {
-    const fileText = await tryRead(absolutePath);
+  for (const sourceFile of sourceFiles) {
+    const rawText = await readFile(sourceFile.absolutePath, "utf8");
+    const sanitized = redactContent(rawText);
 
-    if (!fileText) {
-      continue;
-    }
-
-    const sanitized = redactContent(fileText);
-    const relativeSource = path.basename(absolutePath);
     const chunks = chunkContent({
-      source: relativeSource,
+      source: sourceFile.source,
       text: sanitized,
     });
 
@@ -53,12 +52,21 @@ async function main() {
   console.log(`Generated ${collectedChunks.length} chunks at ${outputPath}`);
 }
 
-async function tryRead(absolutePath: string): Promise<string | null> {
-  try {
-    return await readFile(absolutePath, "utf8");
-  } catch {
-    return null;
-  }
+type SourceFile = {
+  source: string;
+  absolutePath: string;
+};
+
+async function getSourceFiles(): Promise<SourceFile[]> {
+  const entries = await readdir(SOURCES_DIR, { withFileTypes: true });
+
+  return entries
+    .filter((entry) => entry.isFile() && entry.name.toLowerCase().endsWith(".md"))
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .map((entry) => ({
+      source: entry.name,
+      absolutePath: path.join(SOURCES_DIR, entry.name),
+    }));
 }
 
 main().catch((error) => {
