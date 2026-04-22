@@ -260,8 +260,6 @@ export function ChatShell() {
                   </button>
                 ) : null}
               </div>
-
-              <p className="text-xs text-text-500">Статус: {status}</p>
             </div>
 
             {exportError ? (

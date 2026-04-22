@@ -29,7 +29,7 @@ export async function POST(request: Request): Promise<Response> {
     if (!parsed.success) {
       return Response.json(
         {
-          error: "Invalid request payload",
+          error: "Некорректный запрос на экспорт",
         },
         { status: 400 },
       );
@@ -53,7 +53,7 @@ export async function POST(request: Request): Promise<Response> {
       status: 200,
       headers: {
         "Content-Type": "application/pdf",
-        "Content-Disposition": 'attachment; filename="ask-alex-conversation.pdf"',
+        "Content-Disposition": 'attachment; filename="ask-alex-dialog.pdf"',
         "Cache-Control": "no-store",
       },
     });
@@ -65,7 +65,7 @@ export async function POST(request: Request): Promise<Response> {
 
     return Response.json(
       {
-        error: "Unable to export conversation",
+        error: "Не удалось экспортировать диалог",
       },
       { status: 500 },
     );

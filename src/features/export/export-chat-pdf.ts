@@ -1,252 +1,366 @@
+import { readFileSync } from "node:fs";
+import path from "node:path";
+
+import fontkit from "@pdf-lib/fontkit";
+import {
+  PDFDocument,
+  StandardFonts,
+  rgb,
+  type PDFFont,
+  type PDFPage,
+} from "pdf-lib";
 import type { UIMessage } from "ai";
 
 import type { ExportChatPdfInput } from "@/src/features/export/export.types";
 
 const PAGE_WIDTH = 595;
 const PAGE_HEIGHT = 842;
-const MARGIN_LEFT = 50;
-const MARGIN_TOP = 790;
-const LINE_HEIGHT = 14;
-const MAX_LINE_CHARS = 86;
-const MAX_LINES_PER_PAGE = 50;
+const MARGIN_X = 48;
+const TOP_MARGIN = 56;
+const BOTTOM_MARGIN = 54;
+const CONTENT_WIDTH = PAGE_WIDTH - MARGIN_X * 2;
 
-export function exportChatPdf({ title, messages }: ExportChatPdfInput): Uint8Array {
-  const lines = buildDocumentLines(title, messages);
-  const pages = paginate(lines, MAX_LINES_PER_PAGE);
+const HEADER_SIZE = 18;
+const META_SIZE = 10;
+const BODY_SIZE = 12;
+const LINE_GAP = 4;
+const BLOCK_PADDING = 10;
+const BLOCK_MARGIN_BOTTOM = 12;
 
-  return buildPdfFromPages(pages);
+let cachedFontBytes: Uint8Array | null = null;
+
+export async function exportChatPdf({
+  title,
+  messages,
+}: ExportChatPdfInput): Promise<Uint8Array> {
+  const pdf = await PDFDocument.create();
+  pdf.registerFontkit(fontkit);
+
+  const font = await loadPrimaryFont(pdf);
+
+  let page = pdf.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
+  let cursorY = PAGE_HEIGHT - TOP_MARGIN;
+
+  const headerTitle = title?.trim() || "Экспорт диалога Ask Alex";
+  const generatedAt = new Intl.DateTimeFormat("ru-RU", {
+    dateStyle: "medium",
+    timeStyle: "short",
+  }).format(new Date());
+
+  ({ page, cursorY } = drawWrappedText({
+    pdf,
+    page,
+    font,
+    text: headerTitle,
+    x: MARGIN_X,
+    y: cursorY,
+    maxWidth: CONTENT_WIDTH,
+    fontSize: HEADER_SIZE,
+    color: rgb(0.11, 0.11, 0.1),
+    lineGap: 6,
+  }));
+
+  cursorY -= 4;
+
+  ({ page, cursorY } = drawWrappedText({
+    pdf,
+    page,
+    font,
+    text: `Сформировано: ${generatedAt}`,
+    x: MARGIN_X,
+    y: cursorY,
+    maxWidth: CONTENT_WIDTH,
+    fontSize: META_SIZE,
+    color: rgb(0.45, 0.45, 0.42),
+    lineGap: 2,
+  }));
+
+  cursorY -= 14;
+  drawDivider(page, cursorY);
+  cursorY -= 16;
+
+  const transcript = extractTranscript(messages);
+
+  if (transcript.length === 0) {
+    ({ page, cursorY } = drawWrappedText({
+      pdf,
+      page,
+      font,
+      text: "Диалог пуст. Сообщений пока нет.",
+      x: MARGIN_X,
+      y: cursorY,
+      maxWidth: CONTENT_WIDTH,
+      fontSize: BODY_SIZE,
+      color: rgb(0.22, 0.22, 0.2),
+      lineGap: LINE_GAP,
+    }));
+  } else {
+    for (const item of transcript) {
+      const lines = wrapParagraphs(item.text, font, BODY_SIZE, CONTENT_WIDTH - BLOCK_PADDING * 2);
+      const blockHeight =
+        lines.length * (BODY_SIZE + LINE_GAP) + BLOCK_PADDING * 2 - LINE_GAP;
+
+      ({ page, cursorY } = ensureSpace(pdf, page, cursorY, blockHeight + BLOCK_MARGIN_BOTTOM));
+
+      const blockY = cursorY - blockHeight;
+
+      page.drawRectangle({
+        x: MARGIN_X,
+        y: blockY,
+        width: CONTENT_WIDTH,
+        height: blockHeight,
+        color: item.role === "user" ? rgb(1, 0.95, 0.9) : rgb(0.98, 0.98, 0.97),
+        borderColor: rgb(0.86, 0.84, 0.82),
+        borderWidth: 0.7,
+      });
+
+      let textY = cursorY - BLOCK_PADDING - BODY_SIZE;
+      for (const line of lines) {
+        page.drawText(line, {
+          x: MARGIN_X + BLOCK_PADDING,
+          y: textY,
+          size: BODY_SIZE,
+          font,
+          color: rgb(0.16, 0.16, 0.14),
+        });
+
+        textY -= BODY_SIZE + LINE_GAP;
+      }
+
+      cursorY = blockY - BLOCK_MARGIN_BOTTOM;
+    }
+  }
+
+  return pdf.save();
 }
 
-function buildDocumentLines(title: string | undefined, messages: UIMessage[]): string[] {
-  const headerTitle = title?.trim() || "Ask Alex Conversation Export";
-  const generatedAt = new Date().toISOString();
+type TranscriptItem = {
+  role: "user" | "assistant";
+  text: string;
+};
 
-  const lines: string[] = [
-    headerTitle,
-    `Generated at: ${generatedAt}`,
-    "",
-  ];
+function extractTranscript(messages: UIMessage[]): TranscriptItem[] {
+  const items: TranscriptItem[] = [];
 
   for (const message of messages) {
-    const role = message.role.toUpperCase();
-    lines.push(`${role}:`);
-
     const parts = Array.isArray((message as { parts?: unknown[] }).parts)
       ? ((message as { parts?: unknown[] }).parts as unknown[])
       : [];
 
-    if (parts.length === 0) {
-      lines.push("(no content)");
-      lines.push("");
+    const textParts = parts
+      .map((part) => {
+        if (!part || typeof part !== "object") {
+          return "";
+        }
+
+        const value = part as Record<string, unknown>;
+        if (value.type !== "text") {
+          return "";
+        }
+
+        return String(value.text ?? "").trim();
+      })
+      .filter(Boolean);
+
+    const text = textParts.join("\n\n").trim();
+    if (!text) {
       continue;
     }
 
-    for (const part of parts) {
-      const text = stringifyMessagePart(part);
-      if (!text) {
-        continue;
-      }
-
-      for (const wrapped of wrapLine(text, MAX_LINE_CHARS)) {
-        lines.push(wrapped);
-      }
-    }
-
-    lines.push("");
+    items.push({
+      role: message.role === "user" ? "user" : "assistant",
+      text,
+    });
   }
 
-  if (lines.length === 3) {
-    lines.push("No messages in this export.");
+  return items;
+}
+
+type DrawWrappedTextInput = {
+  pdf: PDFDocument;
+  page: PDFPage;
+  font: PDFFont;
+  text: string;
+  x: number;
+  y: number;
+  maxWidth: number;
+  fontSize: number;
+  color: ReturnType<typeof rgb>;
+  lineGap: number;
+};
+
+function drawWrappedText({
+  pdf,
+  page,
+  font,
+  text,
+  x,
+  y,
+  maxWidth,
+  fontSize,
+  color,
+  lineGap,
+}: DrawWrappedTextInput): { page: PDFPage; cursorY: number } {
+  const lines = wrapParagraphs(text, font, fontSize, maxWidth);
+  let currentPage = page;
+  let cursorY = y;
+
+  for (const line of lines) {
+    ({ page: currentPage, cursorY } = ensureSpace(
+      pdf,
+      currentPage,
+      cursorY,
+      fontSize + lineGap,
+    ));
+
+    currentPage.drawText(line, {
+      x,
+      y: cursorY,
+      size: fontSize,
+      font,
+      color,
+    });
+
+    cursorY -= fontSize + lineGap;
+  }
+
+  return { page: currentPage, cursorY };
+}
+
+function wrapParagraphs(
+  text: string,
+  font: PDFFont,
+  fontSize: number,
+  maxWidth: number,
+): string[] {
+  const paragraphs = text
+    .replace(/\r\n/g, "\n")
+    .replace(/\r/g, "\n")
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  if (paragraphs.length === 0) {
+    return [];
+  }
+
+  const lines: string[] = [];
+
+  for (const paragraph of paragraphs) {
+    const wrapped = wrapByWidth(paragraph, font, fontSize, maxWidth);
+    lines.push(...wrapped);
   }
 
   return lines;
 }
 
-function stringifyMessagePart(part: unknown): string | null {
-  if (!part || typeof part !== "object") {
-    return null;
-  }
-
-  const value = part as Record<string, unknown>;
-  const type = typeof value.type === "string" ? value.type : "unknown";
-
-  if (type === "text") {
-    return String(value.text ?? "");
-  }
-
-  if (type.startsWith("tool-")) {
-    const state = typeof value.state === "string" ? value.state : "unknown";
-
-    if (state === "output-available") {
-      return `${type} [output]: ${safeJson(value.output)}`;
-    }
-
-    if (state === "output-error") {
-      return `${type} [error]: ${String(value.errorText ?? "Unknown tool error")}`;
-    }
-
-    if (state === "input-available") {
-      return `${type} [input]: ${safeJson(value.input)}`;
-    }
-
-    return `${type} [${state}]`;
-  }
-
-  return `${type}: ${safeJson(value)}`;
-}
-
-function safeJson(value: unknown): string {
-  try {
-    return JSON.stringify(value);
-  } catch {
-    return "[unserializable]";
-  }
-}
-
-function wrapLine(text: string, maxChars: number): string[] {
-  const normalized = text.replace(/\s+/g, " ").trim();
-
-  if (!normalized) {
-    return [""];
-  }
-
-  const words = normalized.split(" ");
+function wrapByWidth(
+  text: string,
+  font: PDFFont,
+  fontSize: number,
+  maxWidth: number,
+): string[] {
+  const words = text.split(/\s+/).filter(Boolean);
   const lines: string[] = [];
-  let current = "";
+  let currentLine = "";
 
   for (const word of words) {
-    if (!current) {
-      current = word;
+    const candidate = currentLine ? `${currentLine} ${word}` : word;
+    if (font.widthOfTextAtSize(candidate, fontSize) <= maxWidth) {
+      currentLine = candidate;
       continue;
     }
 
-    if (`${current} ${word}`.length <= maxChars) {
-      current = `${current} ${word}`;
+    if (currentLine) {
+      lines.push(currentLine);
+      currentLine = "";
+    }
+
+    if (font.widthOfTextAtSize(word, fontSize) <= maxWidth) {
+      currentLine = word;
       continue;
     }
 
-    lines.push(current);
-    current = word;
+    const fragments = splitLongWord(word, font, fontSize, maxWidth);
+    lines.push(...fragments.slice(0, -1));
+    currentLine = fragments[fragments.length - 1] ?? "";
+  }
+
+  if (currentLine) {
+    lines.push(currentLine);
+  }
+
+  return lines;
+}
+
+function splitLongWord(
+  word: string,
+  font: PDFFont,
+  fontSize: number,
+  maxWidth: number,
+): string[] {
+  const fragments: string[] = [];
+  let current = "";
+
+  for (const char of Array.from(word)) {
+    const candidate = `${current}${char}`;
+    if (font.widthOfTextAtSize(candidate, fontSize) <= maxWidth) {
+      current = candidate;
+      continue;
+    }
+
+    if (current) {
+      fragments.push(current);
+      current = char;
+    } else {
+      fragments.push(char);
+      current = "";
+    }
   }
 
   if (current) {
-    lines.push(current);
+    fragments.push(current);
   }
 
-  return lines;
+  return fragments;
 }
 
-function paginate(lines: string[], maxLinesPerPage: number): string[][] {
-  if (lines.length === 0) {
-    return [[""]];
+function ensureSpace(
+  pdf: PDFDocument,
+  page: PDFPage,
+  cursorY: number,
+  requiredHeight: number,
+): { page: PDFPage; cursorY: number } {
+  if (cursorY - requiredHeight >= BOTTOM_MARGIN) {
+    return { page, cursorY };
   }
 
-  const pages: string[][] = [];
-
-  for (let index = 0; index < lines.length; index += maxLinesPerPage) {
-    pages.push(lines.slice(index, index + maxLinesPerPage));
-  }
-
-  return pages;
+  const nextPage = pdf.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
+  return {
+    page: nextPage,
+    cursorY: PAGE_HEIGHT - TOP_MARGIN,
+  };
 }
 
-function buildPdfFromPages(pages: string[][]): Uint8Array {
-  const objects = new Map<number, string>();
-
-  objects.set(1, "<< /Type /Catalog /Pages 2 0 R >>");
-
-  const pageObjectIds: number[] = [];
-  const pageCount = pages.length;
-
-  for (let index = 0; index < pageCount; index += 1) {
-    pageObjectIds.push(3 + index * 2);
-  }
-
-  const fontObjectId = 3 + pageCount * 2;
-
-  objects.set(
-    2,
-    `<< /Type /Pages /Kids [${pageObjectIds
-      .map((id) => `${id} 0 R`)
-      .join(" ")}] /Count ${pageCount} >>`,
-  );
-
-  for (let index = 0; index < pages.length; index += 1) {
-    const pageObjectId = 3 + index * 2;
-    const contentObjectId = pageObjectId + 1;
-
-    const contentStream = buildPageContentStream(pages[index] ?? []);
-
-    objects.set(
-      pageObjectId,
-      `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${PAGE_WIDTH} ${PAGE_HEIGHT}] /Resources << /Font << /F1 ${fontObjectId} 0 R >> >> /Contents ${contentObjectId} 0 R >>`,
-    );
-
-    objects.set(
-      contentObjectId,
-      `<< /Length ${contentStream.length} >>\nstream\n${contentStream}\nendstream`,
-    );
-  }
-
-  objects.set(
-    fontObjectId,
-    "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>",
-  );
-
-  const objectCount = fontObjectId;
-  const lines: string[] = ["%PDF-1.4\n"];
-  const offsets: number[] = new Array(objectCount + 1).fill(0);
-
-  for (let objectId = 1; objectId <= objectCount; objectId += 1) {
-    offsets[objectId] = lines.join("").length;
-    lines.push(`${objectId} 0 obj\n${objects.get(objectId)}\nendobj\n`);
-  }
-
-  const xrefOffset = lines.join("").length;
-  lines.push(`xref\n0 ${objectCount + 1}\n`);
-  lines.push("0000000000 65535 f \n");
-
-  for (let objectId = 1; objectId <= objectCount; objectId += 1) {
-    lines.push(`${String(offsets[objectId]).padStart(10, "0")} 00000 n \n`);
-  }
-
-  lines.push(
-    `trailer\n<< /Size ${objectCount + 1} /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`,
-  );
-
-  return new TextEncoder().encode(lines.join(""));
-}
-
-function buildPageContentStream(lines: string[]): string {
-  const commands: string[] = [
-    "BT",
-    "/F1 11 Tf",
-    `${MARGIN_LEFT} ${MARGIN_TOP} Td`,
-  ];
-
-  lines.forEach((line, index) => {
-    const printable = sanitizeTextForPdf(line);
-    commands.push(`(${escapePdfText(printable)}) Tj`);
-
-    if (index < lines.length - 1) {
-      commands.push(`0 -${LINE_HEIGHT} Td`);
-    }
+function drawDivider(page: PDFPage, y: number) {
+  page.drawLine({
+    start: { x: MARGIN_X, y },
+    end: { x: PAGE_WIDTH - MARGIN_X, y },
+    thickness: 0.7,
+    color: rgb(0.85, 0.84, 0.82),
+    opacity: 0.9,
   });
-
-  commands.push("ET");
-  return commands.join("\n");
 }
 
-function sanitizeTextForPdf(text: string): string {
-  return text
-    .replace(/[^\x20-\x7E]/g, "?")
-    .replace(/\s+/g, " ")
-    .trim();
-}
+async function loadPrimaryFont(pdf: PDFDocument): Promise<PDFFont> {
+  try {
+    if (!cachedFontBytes) {
+      const fontPath = path.join(process.cwd(), "src/assets/fonts/Geist-Regular.ttf");
+      cachedFontBytes = new Uint8Array(readFileSync(fontPath));
+    }
 
-function escapePdfText(text: string): string {
-  return text
-    .replace(/\\/g, "\\\\")
-    .replace(/\(/g, "\\(")
-    .replace(/\)/g, "\\)");
+    return await pdf.embedFont(cachedFontBytes, { subset: true });
+  } catch {
+    return pdf.embedFont(StandardFonts.Helvetica);
+  }
 }

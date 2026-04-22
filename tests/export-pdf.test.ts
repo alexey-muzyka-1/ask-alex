@@ -3,8 +3,8 @@ import assert from "node:assert/strict";
 
 import { exportChatPdf } from "../src/features/export/export-chat-pdf";
 
-test("exportChatPdf generates a valid PDF header", () => {
-  const bytes = exportChatPdf({
+test("exportChatPdf generates a valid PDF header", async () => {
+  const bytes = await exportChatPdf({
     title: "Test",
     messages: [
       {
@@ -16,5 +16,5 @@ test("exportChatPdf generates a valid PDF header", () => {
   } as never);
 
   const header = new TextDecoder().decode(bytes.slice(0, 8));
-  assert.equal(header.startsWith("%PDF-1.4"), true);
+  assert.equal(header.startsWith("%PDF-"), true);
 });

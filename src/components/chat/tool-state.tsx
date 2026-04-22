@@ -1,33 +1,27 @@
 type ToolStateProps = {
   part: {
-    type: string;
     state?: string;
     errorText?: string;
   };
 };
 
 export function ToolState({ part }: ToolStateProps) {
-  const state = part.state ?? "unknown";
-
-  if (state === "input-streaming") {
-    return <p className="text-xs text-text-400">Выполняется {part.type}…</p>;
-  }
-
-  if (state === "input-available") {
-    return <p className="text-xs text-text-400">Подготовлен ввод для {part.type}.</p>;
-  }
-
-  if (state === "output-error") {
+  if (part.state === "input-streaming") {
     return (
-      <p className="text-xs text-destructive">
-        Ошибка {part.type}: {part.errorText ?? "Неизвестная ошибка инструмента"}
+      <p className="text-xs text-text-400">
+        Думаю, проверяю источники…
       </p>
     );
   }
 
-  if (state === "output-available") {
-    return <p className="text-xs text-text-400">{part.type} выполнен.</p>;
+  if (part.state === "output-error") {
+    return (
+      <p className="text-xs text-destructive">
+        Не удалось получить дополнительные данные.
+        {part.errorText ? ` ${part.errorText}` : ""}
+      </p>
+    );
   }
 
-  return <p className="text-xs text-text-400">{part.type}, состояние: {state}</p>;
+  return null;
 }

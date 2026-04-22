@@ -30,9 +30,6 @@ export function MessageList({ messages }: MessageListProps) {
                 isUser ? "bg-accent/12" : "bg-bg-100/90"
               }`}
             >
-              <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-wider text-text-400">
-                {isUser ? "Вы" : "Ассистент"}
-              </p>
               <div className="space-y-2 text-text-200">
                 {message.parts.map((part, index) => (
                   <MessagePart key={`${message.id}-${index}`} part={part} />
