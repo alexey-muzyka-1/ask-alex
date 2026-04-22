@@ -9,39 +9,37 @@ type MessageListProps = {
 export function MessageList({ messages }: MessageListProps) {
   if (messages.length === 0) {
     return (
-      <div className="flex h-full items-center justify-center text-sm text-muted-foreground">
-        Start by asking about Alex&apos;s projects, architecture, or shipping experience.
+      <div className="flex h-full min-h-52 items-center justify-center px-4 text-center text-sm text-text-400">
+        Начните диалог и задайте вопрос о проектах, архитектуре или поставке.
       </div>
     );
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       {messages.map((message) => {
         const isUser = message.role === "user";
 
         return (
-          <div
+          <article
             key={message.id}
             className={`flex ${isUser ? "justify-end" : "justify-start"}`}
           >
             <div
-              className={`max-w-[90%] rounded-xl border px-3 py-2 text-sm md:max-w-[75%] ${
-                isUser
-                  ? "border-primary/30 bg-primary/10"
-                  : "border-border bg-card"
+              className={`max-w-[95%] rounded-2xl px-3 py-2.5 text-sm shadow-[0_2px_10px_rgba(0,0,0,0.04)] sm:max-w-[80%] ${
+                isUser ? "bg-accent/12" : "bg-bg-100/90"
               }`}
             >
-              <p className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
-                {message.role}
+              <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-wider text-text-400">
+                {isUser ? "Вы" : "Ассистент"}
               </p>
-              <div className="space-y-2">
+              <div className="space-y-2 text-text-200">
                 {message.parts.map((part, index) => (
                   <MessagePart key={`${message.id}-${index}`} part={part} />
                 ))}
               </div>
             </div>
-          </div>
+          </article>
         );
       })}
     </div>

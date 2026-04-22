@@ -20,7 +20,7 @@ export function MessagePart({ part }: { part: unknown }) {
   }
 
   if (part.type === "text") {
-    return <p className="whitespace-pre-wrap leading-relaxed">{String(part.text ?? "")}</p>;
+    return <p className="whitespace-pre-wrap leading-relaxed text-text-200">{String(part.text ?? "")}</p>;
   }
 
   if (isToolPart(part)) {
@@ -41,7 +41,7 @@ export function MessagePart({ part }: { part: unknown }) {
         : [];
 
     return (
-      <div className="rounded-md border border-border bg-background/70 p-2">
+      <div className="rounded-xl bg-bg-200/55 p-2.5">
         <ToolState part={part} />
         <SourceList hits={hits} />
       </div>

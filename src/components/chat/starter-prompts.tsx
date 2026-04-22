@@ -1,8 +1,8 @@
 const PROMPTS = [
-  "What did Alex build at Viralmaxing?",
-  "What happened in the casino incident recovery case?",
+  "Что Алекс построил в Viralmaxing?",
+  "Как Алекс восстановил систему после casino-инцидента?",
   "Покажи ключевые проекты Алекса и цикл поставки",
-  "Какие решения он принимал как tech lead?",
+  "Какие решения он принимал как техлид?",
 ];
 
 type StarterPromptsProps = {
@@ -12,14 +12,14 @@ type StarterPromptsProps = {
 
 export function StarterPrompts({ onSelect, disabled }: StarterPromptsProps) {
   return (
-    <div className="mb-4 flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-2">
       {PROMPTS.map((prompt) => (
         <button
           key={prompt}
           type="button"
           disabled={disabled}
           onClick={() => onSelect(prompt)}
-          className="rounded-full border border-border bg-background px-3 py-1.5 text-xs text-muted-foreground transition hover:bg-muted disabled:cursor-not-allowed disabled:opacity-60"
+          className="inline-flex min-h-10 items-center rounded-full border border-bg-300 bg-bg-100 px-3 text-xs font-medium text-text-300 transition hover:border-accent/40 hover:bg-accent/10 hover:text-text-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {prompt}
         </button>
