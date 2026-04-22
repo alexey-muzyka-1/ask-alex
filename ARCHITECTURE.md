@@ -1,51 +1,47 @@
 # Architecture
 
-## Design Goal
+## Purpose
+Deliver a demo-first assistant that is easy to review, run, and extend.
 
-Deliver a demo-first artifact that is easy to review, deploy, and evolve without overengineering.
-
-## System Flow
-
+## Runtime Flow
 ```mermaid
 flowchart LR
-  UI["Chat UI (message.parts)"] --> CHAT["POST /api/chat"]
+  UI["Chat UI"] --> CHAT["POST /api/chat"]
   CHAT --> ORCH["chat-service + tool-registry"]
-  ORCH --> RAG["search_candidate (snapshot corpus)"]
-  ORCH --> PROJ["get_project (project catalog)"]
+  ORCH --> RAG["search_candidate (curated corpus)"]
+  ORCH --> PROJ["get_project (projects.json)"]
   ORCH --> WEB["search_web (Tavily)"]
   UI --> EXP["POST /api/export"]
-  EXP --> PDF["Minimal PDF generator"]
+  EXP --> PDF["PDF generator"]
 ```
 
-## Module Boundaries
+## Boundaries
+- `features/chat`: orchestration, system prompt, tool wiring.
+- `features/retrieval`: embeddings adapter, ranking, snapshot access.
+- `features/projects`: structured project catalog.
+- `features/web-search`: Tavily client + normalized output.
+- `features/export`: PDF generation from chat messages.
 
-- `features/chat`: orchestration, prompt, tool wiring, message mapping, tool envelopes.
-- `features/retrieval`: embedding provider contract, OpenRouter adapter, ranking, snapshot access.
-- `features/projects`: structured project catalog access.
-- `features/web-search`: Tavily adapter + normalized search output.
-- `features/export`: plain PDF generation for chat history.
-- `shared/*`: cross-feature primitives only (`env`, `result`, `errors`, `observability`, `constants`).
+## Candidate Data Boundary
+`search_candidate` uses only curated candidate sources through ingest whitelist.
+
+Whitelisted files:
+- `bio.md`
+- `cv.md`
+- `projects-highlights.md`
+- `selected-stories.md`
+- `selected-posts.md`
+
+Enforcement:
+- `scripts/candidate-sources.ts` (whitelist + required files)
+- `scripts/ingest-corpus.ts` (builds `src/content/corpus.json`)
 
 ## Tool Contracts
-
-- `search_candidate`
-  - Input: `{ query }`
-  - Output: `{ ok: true, data: { hits: [{ chunkId, source, excerpt, score }] } }` or unified error envelope.
-- `get_project`
-  - Input: `{ name }`
-  - Output: `{ ok: true, data: { name, role, cycleTime, handoff, description, links[] } }` or error envelope.
-- `search_web`
-  - Input: `{ query }`
-  - Output: `{ ok: true, data: { results: [{ title, url, snippet, score? }] } }` or error envelope.
+- `search_candidate`: `{ query } -> { hits: [{ chunkId, source, sourceType?, excerpt, score }] }`
+- `get_project`: `{ name } -> { name, role, cycleTime, handoff, description, links[] }`
+- `search_web`: `{ query } -> { results: [{ title, url, snippet, score? }] }`
 
 ## Trade-offs
-
-- Snapshot corpus is committed to repo for reproducibility and deployment simplicity.
-- Retrieval uses compact vectors to keep ingestion and runtime lightweight for demo scope.
-- PDF export is intentionally minimal and focused on readable dialogue export.
-
-## Migration Seams
-
-- Replace embeddings provider by changing `EmbeddingProvider` implementation.
-- Replace web search by swapping `tavily-client.ts` and keeping normalized output contract.
-- Replace corpus backend by changing `snapshot-corpus.ts` while preserving retrieval interface.
+- Snapshot corpus is committed for reproducibility and simpler review.
+- Curated corpus reduces narrative drift and keeps responses focused on the candidate.
+- PDF export is intentionally minimal and interview-demo oriented.

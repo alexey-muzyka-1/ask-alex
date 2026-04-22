@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import {
+  DEFAULT_OPENROUTER_MAX_OUTPUT_TOKENS,
   DEFAULT_OPENROUTER_EMBEDDING_MODEL,
   DEFAULT_OPENROUTER_MODEL,
 } from "@/src/shared/constants";
@@ -11,6 +12,11 @@ const envSchema = z.object({
   OPENROUTER_EMBEDDING_MODEL: z
     .string()
     .default(DEFAULT_OPENROUTER_EMBEDDING_MODEL),
+  OPENROUTER_MAX_OUTPUT_TOKENS: z.coerce
+    .number()
+    .int()
+    .min(1)
+    .default(DEFAULT_OPENROUTER_MAX_OUTPUT_TOKENS),
   TAVILY_API_KEY: z.string().min(1, "TAVILY_API_KEY is required"),
   NODE_ENV: z
     .enum(["development", "test", "production"])
@@ -30,6 +36,7 @@ export function getEnv(): AppEnv {
     OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY,
     OPENROUTER_MODEL: process.env.OPENROUTER_MODEL,
     OPENROUTER_EMBEDDING_MODEL: process.env.OPENROUTER_EMBEDDING_MODEL,
+    OPENROUTER_MAX_OUTPUT_TOKENS: process.env.OPENROUTER_MAX_OUTPUT_TOKENS,
     TAVILY_API_KEY: process.env.TAVILY_API_KEY,
     NODE_ENV: process.env.NODE_ENV,
   });

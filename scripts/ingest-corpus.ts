@@ -3,17 +3,26 @@ import path from "node:path";
 
 import { OpenRouterEmbeddingsProvider } from "@/src/features/retrieval/openrouter-embeddings";
 import type { CorpusChunk } from "@/src/features/retrieval/retrieval.types";
+import {
+  assertRequiredCandidateSources,
+  buildCandidateTags,
+  selectWhitelistedCandidateSources,
+  type CandidateSourceType,
+} from "@/scripts/candidate-sources";
 import { chunkContent } from "@/scripts/chunk-content";
 import { redactContent } from "@/scripts/redact-content";
 
-const SOURCES_DIR = path.join(process.cwd(), "src/content/sources");
+const CANDIDATE_SOURCES_DIR = path.join(
+  process.cwd(),
+  "src/content/sources/candidate",
+);
 
 async function main() {
-  const sourceFiles = await getSourceFiles();
+  const sourceFiles = await getCandidateSourceFiles();
 
   if (sourceFiles.length === 0) {
     throw new Error(
-      "No source files found in src/content/sources. Add local markdown files before running ingest.",
+      "No whitelisted candidate source files found in src/content/sources/candidate.",
     );
   }
 
@@ -31,6 +40,8 @@ async function main() {
     const chunks = chunkContent({
       source: sourceFile.source,
       text: sanitized,
+      sourceType: sourceFile.sourceType,
+      tags: buildCandidateTags(sourceFile.sourceType),
     });
 
     for (const chunk of chunks) {
@@ -39,6 +50,7 @@ async function main() {
         chunkId: chunk.chunkId,
         source: chunk.source,
         text: chunk.text,
+        sourceType: chunk.sourceType,
         tags: chunk.tags,
         embedding,
       });
@@ -54,19 +66,23 @@ async function main() {
 
 type SourceFile = {
   source: string;
+  sourceType: CandidateSourceType;
   absolutePath: string;
 };
 
-async function getSourceFiles(): Promise<SourceFile[]> {
-  const entries = await readdir(SOURCES_DIR, { withFileTypes: true });
-
-  return entries
+async function getCandidateSourceFiles(): Promise<SourceFile[]> {
+  const entries = await readdir(CANDIDATE_SOURCES_DIR, { withFileTypes: true });
+  const markdownFiles = entries
     .filter((entry) => entry.isFile() && entry.name.toLowerCase().endsWith(".md"))
-    .sort((a, b) => a.name.localeCompare(b.name))
-    .map((entry) => ({
-      source: entry.name,
-      absolutePath: path.join(SOURCES_DIR, entry.name),
-    }));
+    .map((entry) => entry.name);
+
+  assertRequiredCandidateSources(markdownFiles);
+
+  return selectWhitelistedCandidateSources(markdownFiles).map((sourceSpec) => ({
+    source: sourceSpec.fileName,
+    sourceType: sourceSpec.sourceType,
+    absolutePath: path.join(CANDIDATE_SOURCES_DIR, sourceSpec.fileName),
+  }));
 }
 
 main().catch((error) => {

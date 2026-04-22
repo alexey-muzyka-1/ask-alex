@@ -1,4 +1,16 @@
-import type { CandidateHit, CorpusChunk } from "@/src/features/retrieval/retrieval.types";
+import type {
+  CandidateHit,
+  CandidateSourceType,
+  CorpusChunk,
+} from "@/src/features/retrieval/retrieval.types";
+
+const CANDIDATE_SOURCE_TYPES: CandidateSourceType[] = [
+  "bio",
+  "cv",
+  "project-summary",
+  "story",
+  "post",
+];
 
 export function rankCorpusChunks(
   queryEmbedding: number[],
@@ -9,6 +21,7 @@ export function rankCorpusChunks(
     .map((chunk) => ({
       chunkId: chunk.chunkId,
       source: chunk.source,
+      sourceType: resolveSourceType(chunk),
       excerpt: chunk.text,
       score: cosineSimilarity(queryEmbedding, chunk.embedding),
     }))
@@ -18,6 +31,18 @@ export function rankCorpusChunks(
       ...hit,
       score: Number(hit.score.toFixed(6)),
     }));
+}
+
+function resolveSourceType(chunk: CorpusChunk): CandidateSourceType | undefined {
+  if (chunk.sourceType) {
+    return chunk.sourceType;
+  }
+
+  const taggedType = chunk.tags?.find((tag): tag is CandidateSourceType =>
+    CANDIDATE_SOURCE_TYPES.includes(tag as CandidateSourceType),
+  );
+
+  return taggedType;
 }
 
 export function cosineSimilarity(left: number[], right: number[]): number {

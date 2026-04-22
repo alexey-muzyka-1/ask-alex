@@ -46,11 +46,17 @@ export default function ClaudeStyleChatInput({
       return;
     }
 
-    await onSendMessage({ message: text });
     setMessage("");
 
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
+    }
+
+    try {
+      await onSendMessage({ message: text });
+    } catch {
+      // Restore user input if request fails before chat state captures it.
+      setMessage(text);
     }
   }
 

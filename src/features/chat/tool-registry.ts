@@ -6,6 +6,7 @@ import { measureAsync } from "@/src/shared/observability";
 import { toErrorMessage } from "@/src/shared/result";
 import { searchCandidate } from "@/src/features/retrieval/search-candidate";
 import { OpenRouterEmbeddingsProvider } from "@/src/features/retrieval/openrouter-embeddings";
+import type { CandidateSourceType } from "@/src/features/retrieval/retrieval.types";
 import { getProject } from "@/src/features/projects/get-project";
 import { searchWeb } from "@/src/features/web-search/search-web";
 import {
@@ -22,6 +23,7 @@ type SearchCandidateOutput = {
   hits: Array<{
     chunkId: string;
     source: string;
+    sourceType?: CandidateSourceType;
     excerpt: string;
     score: number;
   }>;

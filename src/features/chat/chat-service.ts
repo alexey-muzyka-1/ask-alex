@@ -16,14 +16,18 @@ export async function streamChatResponse(
   const openrouter = createOpenRouter({
     apiKey: env.OPENROUTER_API_KEY,
   });
+  const model = openrouter(env.OPENROUTER_MODEL, {
+    maxTokens: env.OPENROUTER_MAX_OUTPUT_TOKENS,
+  });
 
   const modelMessages = await mapToModelMessages(messages);
   const tools = createToolRegistry({ requestId });
 
   return streamText({
-    model: openrouter(env.OPENROUTER_MODEL),
+    model,
     system: SYSTEM_PROMPT,
     messages: modelMessages,
+    maxOutputTokens: env.OPENROUTER_MAX_OUTPUT_TOKENS,
     tools,
     stopWhen: stepCountIs(MAX_TOOL_STEPS),
   });

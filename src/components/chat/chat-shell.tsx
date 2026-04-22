@@ -208,7 +208,7 @@ export function ChatShell() {
                 </div>
               ) : (
                 <ScrollArea className="h-full p-3 sm:p-4">
-                  <MessageList messages={messages} />
+                  <MessageList messages={messages} isBusy={isBusy} />
                 </ScrollArea>
               )}
             </div>

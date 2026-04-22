@@ -1,8 +1,11 @@
 import { createHash } from "node:crypto";
+import type { CandidateSourceType } from "@/src/features/retrieval/retrieval.types";
 
 type ChunkTextOptions = {
   source: string;
   text: string;
+  sourceType?: CandidateSourceType;
+  tags?: string[];
   targetWords?: number;
   overlapWords?: number;
 };
@@ -11,12 +14,15 @@ export type ChunkedDocument = {
   chunkId: string;
   source: string;
   text: string;
+  sourceType?: CandidateSourceType;
   tags?: string[];
 };
 
 export function chunkContent({
   source,
   text,
+  sourceType,
+  tags,
   targetWords = 90,
   overlapWords = 20,
 }: ChunkTextOptions): ChunkedDocument[] {
@@ -46,6 +52,8 @@ export function chunkContent({
       chunkId: `${sanitizeSource(source)}-${hash}`,
       source,
       text: chunkText,
+      sourceType,
+      tags,
     });
 
     if (end === words.length) {
